@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated()
 			
 			.and()
-			.formLogin().defaultSuccessUrl("/contas").permitAll()
+			.formLogin().defaultSuccessUrl("/conta").permitAll()
 			
 			.and()
 			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

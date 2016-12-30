@@ -31,4 +31,12 @@ public class UsuarioDao implements UserDetailsService {
 		}
 	}
 
+	public Usuario findByEmail(String email) {
+		
+		String jpql = "select u from Usuario u where u.email = :email";
+		return manager.createQuery(jpql, Usuario.class)
+				.setParameter("email", email)
+				.getSingleResult();
+	}
+
 }
