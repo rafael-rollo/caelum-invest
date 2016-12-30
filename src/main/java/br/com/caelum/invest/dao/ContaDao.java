@@ -23,6 +23,13 @@ public class ContaDao {
 				.setParameter("usuario", usuario)
 				.getResultList();
 	}
+
+	public Conta find(Integer id) {
+		String jpql = "select c from Conta c where c.id = :id";
+		return manager.createQuery(jpql, Conta.class)
+				.setParameter("id", id)
+				.getSingleResult();
+	}
 	
 	
 }
