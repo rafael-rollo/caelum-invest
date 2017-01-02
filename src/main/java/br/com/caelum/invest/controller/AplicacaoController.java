@@ -32,7 +32,7 @@ public class AplicacaoController {
 	@Autowired
 	private AplicacaoDao aplicacaoDao;
 
-	@InitBinder
+	@InitBinder(value="aplicacaoForm")
 	public void initBinder(WebDataBinder binder) {
 		binder.addValidators(new AplicacaoFormValidator(contaDao));
 	}
