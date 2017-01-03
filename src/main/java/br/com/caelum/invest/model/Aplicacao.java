@@ -1,3 +1,4 @@
+
 package br.com.caelum.invest.model;
 
 import java.math.BigDecimal;
@@ -62,7 +63,17 @@ public class Aplicacao {
 	public BigDecimal getValor() {
 		return valor;
 	}
-	
-	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Conta getConta() {
+		return conta;
+	}
+
+	public LocalDate getData() {
+		return data;
+	}
 	
 }

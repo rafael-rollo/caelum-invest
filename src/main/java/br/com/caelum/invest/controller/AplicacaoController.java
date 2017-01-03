@@ -1,5 +1,7 @@
 package br.com.caelum.invest.controller;
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +11,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.caelum.invest.dao.AplicacaoDao;
 import br.com.caelum.invest.dao.ContaDao;
 import br.com.caelum.invest.dao.InvestimentoDao;
 import br.com.caelum.invest.form.AplicacaoForm;
 import br.com.caelum.invest.model.Aplicacao;
+import br.com.caelum.invest.model.Conta;
 import br.com.caelum.invest.validator.AplicacaoFormValidator;
+import br.com.caelum.invest.validator.ResgateValidator;
 
 @Controller
 @RequestMapping("/aplicacao")
@@ -58,4 +64,17 @@ public class AplicacaoController {
 		aplicacaoDao.save(aplicacao); 
 		return "redirect:/conta/" + aplicacaoForm.getContaId();
 	}
+	
+	@GetMapping("/{id}")
+	public String resgate(@PathVariable("id") Integer id, Model model, RedirectAttributes attrs) {
+		Aplicacao aplicacao = aplicacaoDao.findOne(id);
+		
+		if(!new ResgateValidator().validate(aplicacao)) {
+			attrs.addFlashAttribute("dataInvalida", "Nao pode resgatar");
+			return "redirect:/conta/" + aplicacao.getConta().getId();
+		}
+		
+		return "aplicacao/detalhes";
+	}
+
 }

@@ -14,7 +14,7 @@
 	<h3>Conta: ${conta.numero }</h3>
 
 	<form:form action="/conta/deposito" method="post" commandName="depositaForm">
-		<form:hidden path="contaId" valur="${conta.id }" />
+		<form:hidden path="contaId" />
 		<div>
 			<label for="valor">Valor: </label>
 			<form:input path="valor" />

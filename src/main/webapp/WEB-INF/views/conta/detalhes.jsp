@@ -16,6 +16,7 @@
 	<h1>Conta ${conta.numero }</h1>
 	<br />
 	
+	<span>${dataInvalida}</span>
 	<table>
 		<tr>
 			<td>Investimento</td>
@@ -25,7 +26,7 @@
 			<tr>
 				<td>${aplicacao.investimento.tipoDeInvestimento.titulo}</td>
 				<td>${aplicacao.valor}</td>
-				<td><a href="/aplicacao/detalhes">Detalhe</a></td>
+				<td><a href="/aplicacao/${aplicacao.id}">Resgate</a></td>
 			</tr>
 		</c:forEach>
 	</table>
