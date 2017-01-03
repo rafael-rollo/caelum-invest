@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
@@ -16,6 +16,21 @@
 	<h1>Conta ${conta.numero }</h1>
 	<br />
 	
+	<table>
+		<tr>
+			<td>Investimento</td>
+			<td>Valor</td>
+		</tr>
+		<c:forEach var="aplicacao" items="${aplicacoes}">
+			<tr>
+				<td>${aplicacao.investimento.tipoDeInvestimento.titulo}</td>
+				<td>${aplicacao.valor}</td>
+				<td><a href="/aplicacao/detalhes">Detalhe</a></td>
+			</tr>
+		</c:forEach>
+	</table>
+	
+	<br /><br />
 	<span>Saldo: ${conta.saldo }</span>
 	<br />
 	

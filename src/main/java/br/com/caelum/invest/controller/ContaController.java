@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.caelum.invest.dao.AplicacaoDao;
 import br.com.caelum.invest.dao.ContaDao;
 import br.com.caelum.invest.form.DepositaForm;
 import br.com.caelum.invest.model.Conta;
@@ -24,6 +25,9 @@ public class ContaController {
 
 	@Autowired
 	private ContaDao contaDao;
+	
+	@Autowired
+	private AplicacaoDao aplicacaoDao;
 
 	@GetMapping
 	public String lista(@AuthenticationPrincipal Usuario usuario, Model model) {
@@ -35,7 +39,10 @@ public class ContaController {
 	@GetMapping("/{id}")
 	public String detalhes(@PathVariable("id") Integer id, Model model) {
 		
-		model.addAttribute("conta", contaDao.find(id));
+		Conta conta = contaDao.find(id);
+		
+		model.addAttribute("aplicacoes", aplicacaoDao.findByConta(conta));
+		model.addAttribute("conta", conta);
 		return "conta/detalhes";
 	}
 	

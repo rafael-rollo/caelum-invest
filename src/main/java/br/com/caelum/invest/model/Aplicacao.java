@@ -54,5 +54,15 @@ public class Aplicacao {
 		
 		conta.desconta(valor);
 	}
+
+	public Investimento getInvestimento() {
+		return investimento;
+	}
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+	
+	
 	
 }
