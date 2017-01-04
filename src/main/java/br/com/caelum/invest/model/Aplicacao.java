@@ -13,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import br.com.caelum.invest.exception.AplicacaoInvalidaException;
-import br.com.caelum.invest.model.Conta;
-import br.com.caelum.invest.model.Investimento;
 
 @Entity
 public class Aplicacao {

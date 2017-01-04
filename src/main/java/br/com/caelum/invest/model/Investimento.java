@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import br.com.caelum.invest.model.TipoDeInvestimento;
@@ -19,6 +20,8 @@ public class Investimento {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private int fidelidade;
+	@NotNull @Min(1)
+	private BigDecimal aporteMinimo;
 	@NotNull
 	@Column(scale=4)
 	private BigDecimal rentabilidade;
@@ -32,8 +35,9 @@ public class Investimento {
 		
 	}
 	
-	public Investimento(int fidelidade, BigDecimal rentabilidade, TipoDeInvestimento tipoDeInvestimento) {
+	public Investimento(int fidelidade, BigDecimal aporteMinimo, BigDecimal rentabilidade, TipoDeInvestimento tipoDeInvestimento) {
 		this.fidelidade = fidelidade;
+		this.aporteMinimo = aporteMinimo;
 		this.rentabilidade = rentabilidade;
 		this.tipoDeInvestimento = tipoDeInvestimento;
 	}
@@ -56,6 +60,10 @@ public class Investimento {
 	
 	public BigDecimal calculaRendimento() {
 		return this.tipoDeInvestimento.calculaRendimento(this);
+	}
+
+	public BigDecimal getAporteMinimo() {
+		return this.aporteMinimo;
 	}
 	
 }

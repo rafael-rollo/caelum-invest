@@ -73,15 +73,15 @@ public class GeradoraDeCoisasController {
 		fundo.setTitulo("Fundo");
 		em.persist(fundo);
 
-		Investimento investimento1 = new Investimento(12, 
+		Investimento investimento1 = new Investimento(12, BigDecimal.TEN,
 				new BigDecimal(0.15), cdb);
 		em.persist(investimento1);
 		
-		Investimento investimento2 = new Investimento(24, 
+		Investimento investimento2 = new Investimento(24, BigDecimal.TEN, 
 				new BigDecimal(0.19), cdb);
 		em.persist(investimento2);
 		
-		Investimento investimento3 = new Investimento(12, 
+		Investimento investimento3 = new Investimento(12, BigDecimal.TEN, 
 				new BigDecimal(0.17), fundo);
 		em.persist(investimento3);
 		

@@ -1,7 +1,5 @@
 package br.com.caelum.invest.controller;
 
-import java.time.LocalDate;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import br.com.caelum.invest.dao.ContaDao;
 import br.com.caelum.invest.dao.InvestimentoDao;
 import br.com.caelum.invest.form.AplicacaoForm;
 import br.com.caelum.invest.model.Aplicacao;
-import br.com.caelum.invest.model.Conta;
 import br.com.caelum.invest.service.RegistraAplicacaoService;
 import br.com.caelum.invest.validator.AplicacaoFormValidator;
 import br.com.caelum.invest.validator.ResgateValidator;
@@ -44,7 +41,7 @@ public class AplicacaoController {
 
 	@InitBinder(value="aplicacaoForm")
 	public void initBinder(WebDataBinder binder) {
-		binder.addValidators(new AplicacaoFormValidator(contaDao));
+		binder.addValidators(new AplicacaoFormValidator(contaDao, investimentoDao));
 	}
 	
 	@GetMapping("/form/conta/{contaId}")

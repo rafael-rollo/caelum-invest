@@ -6,16 +6,19 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import br.com.caelum.invest.dao.ContaDao;
+import br.com.caelum.invest.dao.InvestimentoDao;
 import br.com.caelum.invest.form.AplicacaoForm;
 import br.com.caelum.invest.model.Conta;
+import br.com.caelum.invest.model.Investimento;
 
 public class AplicacaoFormValidator implements Validator {
 
 	private ContaDao contaDao;
-	private final BigDecimal APORTE_MINIMO = BigDecimal.TEN;
+	private InvestimentoDao investimentoDao;
 
-	public AplicacaoFormValidator(ContaDao contaDao) {
+	public AplicacaoFormValidator(ContaDao contaDao, InvestimentoDao investimentoDao) {
 		this.contaDao = contaDao;
+		this.investimentoDao = investimentoDao;
 	}
 
 	@Override
@@ -27,18 +30,22 @@ public class AplicacaoFormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 
 		AplicacaoForm aplicacaoForm = (AplicacaoForm) target;
+		
+		Investimento investimento = investimentoDao
+				.findOne(aplicacaoForm.getInvestimentoId());
 
-		if (aplicacaoForm.getValor().longValue() < APORTE_MINIMO.longValue()) {
+		if (aplicacaoForm.getValor().longValue() < investimento.getAporteMinimo().longValue()) {
 			errors.rejectValue("valor", "valor.menor.aporteMinimo",
-					"O aporte mínimo para esse tipo de investimento é: " + APORTE_MINIMO);
+					"O aporte mínimo para esse tipo de investimento é: " + investimento.getAporteMinimo());
 		}
 
 		Conta conta = contaDao.find(aplicacaoForm.getContaId());
-		BigDecimal subtract = conta.getSaldo().subtract(aplicacaoForm.getValor());
+		BigDecimal diferenca = conta.getSaldo().subtract(aplicacaoForm.getValor());
 		
-		if (subtract.longValue() < 0) {
+		if (diferenca.longValue() < 0) {
 			errors.rejectValue("valor", "valor.inconsistente", "Saldo insuficiente para investimento!");
 		}
 
 	}
+
 }
