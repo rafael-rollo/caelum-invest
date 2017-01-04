@@ -74,5 +74,8 @@ public class Aplicacao {
 	public LocalDate getData() {
 		return data;
 	}
-	
+
+	public LocalDate getDataPrevistaResgate() {
+		return this.data.plusMonths(this.investimento.getFidelidade());
+	}
 }

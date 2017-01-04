@@ -5,11 +5,16 @@ import java.time.LocalDate;
 import br.com.caelum.invest.model.Aplicacao;
 
 public class ResgateValidator {
+	
+	private final LocalDate DATA_ATUAL = LocalDate.now(); 
 
 	public boolean validate(Aplicacao aplicacao) {
-		if(LocalDate.now().isBefore(aplicacao.getData().plusMonths(aplicacao.getInvestimento().getFidelidade())))
+		if(DATA_ATUAL.isBefore(aplicacao.getDataPrevistaResgate()))
 			return false;
 		
 		return true;
 	}
+	
+	
+	
 }
