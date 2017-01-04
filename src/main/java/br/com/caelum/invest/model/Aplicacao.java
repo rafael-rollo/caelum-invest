@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import br.com.caelum.invest.exception.AplicacaoInvalidaException;
 import br.com.caelum.invest.model.Conta;
 import br.com.caelum.invest.model.Investimento;
 
@@ -50,7 +51,7 @@ public class Aplicacao {
 
 	public void processa() {
 		if(this.valor.longValue() > this.conta.getSaldo().longValue()) {
-			throw new IllegalStateException();
+			throw new AplicacaoInvalidaException("Saldo insuficiente para aplicação!");
 		}
 		
 		conta.desconta(valor);
