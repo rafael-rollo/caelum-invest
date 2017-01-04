@@ -22,6 +22,7 @@ import br.com.caelum.invest.dao.InvestimentoDao;
 import br.com.caelum.invest.form.AplicacaoForm;
 import br.com.caelum.invest.model.Aplicacao;
 import br.com.caelum.invest.model.Conta;
+import br.com.caelum.invest.service.RegistraAplicacaoService;
 import br.com.caelum.invest.validator.AplicacaoFormValidator;
 import br.com.caelum.invest.validator.ResgateValidator;
 
@@ -37,6 +38,9 @@ public class AplicacaoController {
 
 	@Autowired
 	private AplicacaoDao aplicacaoDao;
+
+	@Autowired
+	private RegistraAplicacaoService registraAplicacaoService;
 
 	@InitBinder(value="aplicacaoForm")
 	public void initBinder(WebDataBinder binder) {
@@ -59,9 +63,8 @@ public class AplicacaoController {
 		}
 		
 		Aplicacao aplicacao = aplicacaoForm.build(contaDao, investimentoDao);
-		aplicacao.processa();
-		
-		aplicacaoDao.save(aplicacao); 
+		registraAplicacaoService.processa(aplicacao);
+
 		return "redirect:/conta/" + aplicacaoForm.getContaId();
 	}
 	
