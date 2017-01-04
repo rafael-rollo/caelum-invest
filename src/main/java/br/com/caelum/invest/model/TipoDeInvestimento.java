@@ -1,6 +1,7 @@
 package br.com.caelum.invest.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,8 +33,7 @@ public class TipoDeInvestimento {
 		this.titulo = titulo;
 	}
 	
-	public BigDecimal calculaRendimento(Investimento investimento) {
+	public BigDecimal calculaRendimento(BigDecimal valorAplicado, LocalDate dataDaAplicacao, Investimento investimento) {
 		return BigDecimal.TEN;
 	}
-	
 }

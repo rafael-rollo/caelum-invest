@@ -1,5 +1,6 @@
 package br.com.caelum.invest.controller;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,7 @@ public class AplicacaoController {
 		return "redirect:/conta/" + aplicacaoForm.getContaId();
 	}
 	
+	@Transactional
 	@GetMapping("/{id}")
 	public String resgate(@PathVariable("id") Integer id, Model model, RedirectAttributes attrs) {
 		Aplicacao aplicacao = aplicacaoDao.findOne(id);
@@ -74,7 +76,10 @@ public class AplicacaoController {
 			return "redirect:/conta/" + aplicacao.getConta().getId();
 		}
 		
-		return "aplicacao/detalhes";
+		aplicacao.resgata();
+		
+		attrs.addFlashAttribute("sucesso", "Aplicação resgatada. Verifique sua conta.");
+		return "redirect:/conta/" + aplicacao.getConta().getId();
 	}
 
 }

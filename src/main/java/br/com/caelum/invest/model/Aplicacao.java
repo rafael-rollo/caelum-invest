@@ -78,4 +78,15 @@ public class Aplicacao {
 	public LocalDate getDataPrevistaResgate() {
 		return this.data.plusMonths(this.investimento.getFidelidade());
 	}
+	
+	public LocalDate getDataDeResgate() {
+		return dataDeResgate;
+	}
+
+	public void resgata() {
+		this.dataDeResgate = LocalDate.now();
+		
+		BigDecimal valorReajustado = this.investimento.calculaRendimento(this.valor, this.data);
+		conta.deposita(valorReajustado);
+	}
 }

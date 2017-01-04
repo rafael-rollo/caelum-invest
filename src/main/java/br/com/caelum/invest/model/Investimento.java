@@ -1,6 +1,7 @@
 package br.com.caelum.invest.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -58,8 +59,8 @@ public class Investimento {
 		return this.tipoDeInvestimento;
 	}
 	
-	public BigDecimal calculaRendimento() {
-		return this.tipoDeInvestimento.calculaRendimento(this);
+	public BigDecimal calculaRendimento(BigDecimal valorAplicado, LocalDate dataDaAplicacao) {
+		return this.tipoDeInvestimento.calculaRendimento(valorAplicado, dataDaAplicacao, this);
 	}
 
 	public BigDecimal getAporteMinimo() {

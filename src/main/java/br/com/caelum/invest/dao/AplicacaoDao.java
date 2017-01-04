@@ -10,7 +10,7 @@ import br.com.caelum.invest.model.Aplicacao;
 @Repository
 public interface AplicacaoDao extends CrudRepository<Aplicacao, Integer>{
 	
-	List<Aplicacao> findByContaId(Integer contaId);
+	List<Aplicacao> findByContaIdAndDataDeResgateIsNull(Integer contaId);
 
 	
 }

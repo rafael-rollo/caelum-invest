@@ -16,7 +16,6 @@
 	<h1>Conta ${conta.numero }</h1>
 	<br />
 	
-	<span>${dataInvalida}</span>
 	<table>
 		<tr>
 			<td>Investimento</td>
@@ -30,6 +29,8 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<span class="error">${dataInvalida}</span>
+	<span class="success">${sucesso}</span>
 	
 	<br /><br />
 	<span>Saldo: ${conta.saldo }</span>

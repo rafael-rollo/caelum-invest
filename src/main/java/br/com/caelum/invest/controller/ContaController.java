@@ -41,7 +41,8 @@ public class ContaController {
 		
 		Conta conta = contaDao.find(id);
 		
-		model.addAttribute("aplicacoes", aplicacaoDao.findByContaId(conta.getId()));
+		model.addAttribute("aplicacoes", 
+				aplicacaoDao.findByContaIdAndDataDeResgateIsNull(conta.getId()));
 		model.addAttribute("conta", conta);
 		return "conta/detalhes";
 	}
