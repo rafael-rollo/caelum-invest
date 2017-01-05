@@ -17,7 +17,7 @@
 	<hr>
 	
 	<form:form servletRelativeAction="/aplicacao" method="post" commandName="aplicacaoForm">
-		<form:hidden path="contaId" value="${conta.id }"/>
+		<form:hidden path="contaId"/>
 		<table>
 			<thead>
 				<tr>

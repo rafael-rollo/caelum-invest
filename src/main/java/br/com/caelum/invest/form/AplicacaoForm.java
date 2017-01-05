@@ -14,7 +14,6 @@ public class AplicacaoForm {
 
 	@NotNull
 	private Integer contaId;
-	@NotNull
 	private Integer investimentoId;
 	@NotNull
 	private BigDecimal valor = BigDecimal.ZERO;

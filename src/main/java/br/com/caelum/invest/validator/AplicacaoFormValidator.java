@@ -31,6 +31,11 @@ public class AplicacaoFormValidator implements Validator {
 
 		AplicacaoForm aplicacaoForm = (AplicacaoForm) target;
 		
+		if(aplicacaoForm.getInvestimentoId() == null) {
+			errors.rejectValue("investimentoId", "investimento.obrigatorio", "Selecione o investimento!");
+			return;
+		}
+		
 		Investimento investimento = investimentoDao
 				.findOne(aplicacaoForm.getInvestimentoId());
 
