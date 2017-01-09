@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.caelum.invest.model.Investimento;
 import br.com.caelum.invest.model.TipoDeInvestimento;
 import br.com.caelum.invest.dao.UsuarioDao;
+import br.com.caelum.invest.model.CDB;
 import br.com.caelum.invest.model.Conta;
+import br.com.caelum.invest.model.FundoDeInvestimento;
 import br.com.caelum.invest.model.Role;
 import br.com.caelum.invest.model.Usuario;
 
@@ -65,24 +67,23 @@ public class GeradoraDeCoisasController {
 	@GetMapping("/gera/investimentos")
 	public String geraInvestimentos() {
 
-		TipoDeInvestimento cdb = new TipoDeInvestimento();
-		cdb.setTitulo("CDB");
-		em.persist(cdb);
+		CDB cdb1 = new CDB(new BigDecimal(0.15));
+		em.persist(cdb1);
 
-		TipoDeInvestimento fundo = new TipoDeInvestimento();
-		fundo.setTitulo("Fundo");
-		em.persist(fundo);
+		CDB cdb2 = new CDB(new BigDecimal(0.19));
+		em.persist(cdb2);
+		
+		FundoDeInvestimento fundoDeInvestimento = new FundoDeInvestimento(new BigDecimal(0.17));
+		em.persist(fundoDeInvestimento);
 
-		Investimento investimento1 = new Investimento(12, BigDecimal.TEN,
-				new BigDecimal(0.15), cdb);
+		Investimento investimento1 = new Investimento(12, BigDecimal.TEN, cdb1);
 		em.persist(investimento1);
 		
-		Investimento investimento2 = new Investimento(24, BigDecimal.TEN, 
-				new BigDecimal(0.19), cdb);
+		Investimento investimento2 = new Investimento(24, BigDecimal.TEN, cdb2);
 		em.persist(investimento2);
 		
 		Investimento investimento3 = new Investimento(12, BigDecimal.TEN, 
-				new BigDecimal(0.17), fundo);
+				fundoDeInvestimento);
 		em.persist(investimento3);
 		
 		return "investimentos gerados";

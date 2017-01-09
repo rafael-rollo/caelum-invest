@@ -8,11 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import br.com.caelum.invest.model.TipoDeInvestimento;
+import org.hibernate.annotations.Any;
+import org.hibernate.annotations.AnyMetaDef;
+import org.hibernate.annotations.MetaValue;
 
 @Entity
 public class Investimento {
@@ -23,23 +25,25 @@ public class Investimento {
 	private int fidelidade;
 	@NotNull @Min(1)
 	private BigDecimal aporteMinimo;
-	@NotNull
-	@Column(scale=4)
-	private BigDecimal rentabilidade;
 	
-	@ManyToOne
 	@NotNull
+	@Any(metaColumn = @Column(name = "investimento_tipo"))
+	@AnyMetaDef(idType = "int", metaType = "string", metaValues = {
+			@MetaValue(value = "CDB", targetEntity = CDB.class),
+			@MetaValue(value = "Fundo de Investimento", targetEntity = FundoDeInvestimento.class) })
+	@JoinColumn(name = "tipo_id")
 	private TipoDeInvestimento tipoDeInvestimento;
 	
-	@Deprecated
+	/**
+	 * @deprecated
+	 */
 	public Investimento() {
 		
 	}
 	
-	public Investimento(int fidelidade, BigDecimal aporteMinimo, BigDecimal rentabilidade, TipoDeInvestimento tipoDeInvestimento) {
+	public Investimento(int fidelidade, BigDecimal aporteMinimo, TipoDeInvestimento tipoDeInvestimento) {
 		this.fidelidade = fidelidade;
 		this.aporteMinimo = aporteMinimo;
-		this.rentabilidade = rentabilidade;
 		this.tipoDeInvestimento = tipoDeInvestimento;
 	}
 	
@@ -51,16 +55,12 @@ public class Investimento {
 		return this.fidelidade;
 	}
 	
-	public BigDecimal getRentabilidade() {
-		return this.rentabilidade;
-	}
-	
 	public TipoDeInvestimento getTipoDeInvestimento() {
 		return this.tipoDeInvestimento;
 	}
 	
 	public BigDecimal calculaRendimento(BigDecimal valorAplicado, LocalDate dataDaAplicacao) {
-		return this.tipoDeInvestimento.calculaRendimento(valorAplicado, dataDaAplicacao, this);
+		return this.tipoDeInvestimento.calculaRendimento(valorAplicado, dataDaAplicacao);
 	}
 
 	public BigDecimal getAporteMinimo() {

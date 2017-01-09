@@ -32,7 +32,7 @@
 					<tr>
 						<td>${investimento.tipoDeInvestimento.titulo }</td>
 						<td>${investimento.fidelidade } meses</td>
-						<td>${investimento.rentabilidade * 100 }% ao ano</td>
+						<td>${investimento.tipoDeInvestimento.rentabilidade * 100 }% ao ano</td>
 						<td>
 							<form:radiobutton path="investimentoId" value="${investimento.id }"/>
 						</td>
