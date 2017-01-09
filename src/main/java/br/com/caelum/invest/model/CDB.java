@@ -2,6 +2,7 @@ package br.com.caelum.invest.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +44,19 @@ public class CDB implements TipoDeInvestimento {
 
 	@Override
 	public BigDecimal calculaRendimento(BigDecimal valorAplicado, LocalDate dataDaAplicacao) {
-		return BigDecimal.TEN.setScale(2);
+		//M = C*(1 + i)t
+		
+		Month tempoAplicado = LocalDate.now().getMonth()
+				.minus(dataDaAplicacao.getMonthValue());
+		
+		BigDecimal rentabilidadeMensal = this.rentabilidade.divide(new BigDecimal(12));
+		
+		
+		double soma = 1 + rentabilidadeMensal.doubleValue();
+		double potenciacao = Math.pow(soma, tempoAplicado.getValue());
+		BigDecimal juroComposto = valorAplicado.multiply(new BigDecimal(potenciacao));
+		
+		return juroComposto;
 	}
 
 	@Override
