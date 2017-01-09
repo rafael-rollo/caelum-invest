@@ -49,12 +49,16 @@ public class Conta {
 	}
 	
 	public void deposita(BigDecimal valor) {
-		if(valor.longValue() <= 0) throw new IllegalArgumentException("Erro...");
+		if(valor.longValue() <= 0) 
+			throw new IllegalArgumentException("Tentativa de depósito com valor negativo!");
+		
 		this.saldo = this.saldo.add(valor);
 	}
 
 	public void desconta(BigDecimal valor) {
-		if(valor.longValue() > this.saldo.longValue()) throw new IllegalArgumentException("Erro...");
+		if(valor.longValue() > this.saldo.longValue()) 
+			throw new IllegalArgumentException("Tentativa de retirada com saldo insuficiente!");
+		
 		this.saldo = this.saldo.subtract(valor);
 	}
 }
