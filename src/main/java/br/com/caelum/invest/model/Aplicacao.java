@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import br.com.caelum.invest.exception.AplicacaoInvalidaException;
-
 @Entity
 public class Aplicacao {
 
@@ -48,10 +46,6 @@ public class Aplicacao {
 	}
 
 	public void processa() {
-		if(this.valor.longValue() > this.conta.getSaldo().longValue()) {
-			throw new AplicacaoInvalidaException("Saldo insuficiente para aplicação!");
-		}
-		
 		conta.desconta(valor);
 	}
 
@@ -88,5 +82,10 @@ public class Aplicacao {
 		
 		BigDecimal valorReajustado = this.investimento.calculaRendimento(this.valor, this.data);
 		conta.deposita(valorReajustado);
+	}
+
+	public boolean ehPossivelResgatar(LocalDate dataDeResgate) {
+		return this.getDataPrevistaResgate().isBefore(dataDeResgate) ||
+				this.getDataPrevistaResgate().isEqual(dataDeResgate);
 	}
 }

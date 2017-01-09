@@ -67,4 +67,8 @@ public class Investimento {
 		return this.aporteMinimo;
 	}
 	
+	public boolean ehPossivelInvestir(BigDecimal valor) {
+		return valor.longValue() >= this.aporteMinimo.longValue();
+	}
+	
 }

@@ -1,7 +1,5 @@
 package br.com.caelum.invest.validator;
 
-import java.math.BigDecimal;
-
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -39,15 +37,14 @@ public class AplicacaoFormValidator implements Validator {
 		Investimento investimento = investimentoDao
 				.findOne(aplicacaoForm.getInvestimentoId());
 
-		if (aplicacaoForm.getValor().longValue() < investimento.getAporteMinimo().longValue()) {
+		if (! investimento.ehPossivelInvestir(aplicacaoForm.getValor())) {
 			errors.rejectValue("valor", "valor.menor.aporteMinimo",
 					"O aporte mínimo para esse tipo de investimento é: " + investimento.getAporteMinimo());
 		}
 
 		Conta conta = contaDao.find(aplicacaoForm.getContaId());
-		BigDecimal diferenca = conta.getSaldo().subtract(aplicacaoForm.getValor());
 		
-		if (diferenca.longValue() < 0) {
+		if (! conta.ehPossivelDescontar(aplicacaoForm.getValor())) {
 			errors.rejectValue("valor", "valor.inconsistente", "Saldo insuficiente para investimento!");
 		}
 

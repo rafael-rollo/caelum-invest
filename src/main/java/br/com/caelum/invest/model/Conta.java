@@ -56,9 +56,13 @@ public class Conta {
 	}
 
 	public void desconta(BigDecimal valor) {
-		if(valor.longValue() > this.saldo.longValue()) 
+		if(! ehPossivelDescontar(valor)) 
 			throw new IllegalArgumentException("Tentativa de retirada com saldo insuficiente!");
 		
 		this.saldo = this.saldo.subtract(valor);
+	}
+	
+	public boolean ehPossivelDescontar(BigDecimal valor) {
+		return valor.longValue() <= this.saldo.longValue();
 	}
 }
