@@ -12,12 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.caelum.invest.model.Investimento;
-import br.com.caelum.invest.model.TipoDeInvestimento;
 import br.com.caelum.invest.dao.UsuarioDao;
 import br.com.caelum.invest.model.CDB;
 import br.com.caelum.invest.model.Conta;
 import br.com.caelum.invest.model.FundoDeInvestimento;
+import br.com.caelum.invest.model.Investimento;
 import br.com.caelum.invest.model.Role;
 import br.com.caelum.invest.model.Usuario;
 
@@ -73,7 +72,8 @@ public class GeradoraDeCoisasController {
 		CDB cdb2 = new CDB(new BigDecimal(0.19));
 		em.persist(cdb2);
 		
-		FundoDeInvestimento fundoDeInvestimento = new FundoDeInvestimento(new BigDecimal(0.17));
+		FundoDeInvestimento fundoDeInvestimento = 
+				new FundoDeInvestimento(new BigDecimal(0.17), new BigDecimal(0.01));
 		em.persist(fundoDeInvestimento);
 
 		Investimento investimento1 = new Investimento(12, BigDecimal.TEN, cdb1);
