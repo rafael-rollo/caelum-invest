@@ -1,8 +1,9 @@
 package br.com.caelum.invest.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.Month;
+import java.time.temporal.ChronoUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import br.com.caelum.invest.utils.FinancialUtils;
+
 @Entity
 public class CDB implements TipoDeInvestimento {
 
@@ -18,8 +21,8 @@ public class CDB implements TipoDeInvestimento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@NotNull
-	@Column(scale = 4)
-	private BigDecimal rentabilidade;
+	@Column(scale = 3)
+	private BigDecimal rentabilidade = BigDecimal.ZERO.setScale(3, RoundingMode.HALF_UP);
 
 	/**
 	 * @deprecated
@@ -44,19 +47,17 @@ public class CDB implements TipoDeInvestimento {
 
 	@Override
 	public BigDecimal calculaRendimento(BigDecimal valorAplicado, LocalDate dataDaAplicacao) {
-		//M = C*(1 + i)t
 		
-		Month tempoAplicado = LocalDate.now().getMonth()
-				.minus(dataDaAplicacao.getMonthValue());
+		long tempoAplicado = dataDaAplicacao.until(LocalDate.now(), ChronoUnit.MONTHS);
 		
 		BigDecimal rentabilidadeMensal = this.rentabilidade.divide(new BigDecimal(12));
 		
+		BigDecimal rendimento = FinancialUtils
+				.calculaRendimentoComJuroComposto(valorAplicado, rentabilidadeMensal, tempoAplicado);
 		
-		double soma = 1 + rentabilidadeMensal.doubleValue();
-		double potenciacao = Math.pow(soma, tempoAplicado.getValue());
-		BigDecimal juroComposto = valorAplicado.multiply(new BigDecimal(potenciacao));
+		BigDecimal rendimentoLiquido = FinancialUtils.abateValorDoIR(rendimento, tempoAplicado);
 		
-		return juroComposto;
+		return rendimentoLiquido;
 	}
 
 	@Override

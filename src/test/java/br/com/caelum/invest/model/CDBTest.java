@@ -1,24 +1,58 @@
 package br.com.caelum.invest.model;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
+import org.junit.Assert;
 import org.junit.Test;
+
+
 
 public class CDBTest {
 
 	@Test
-	public void deveRetornarRendimentoCorreto() throws Exception {
+	public void deveCalcularRetornoDeAplicacaoEmUmMes() throws Exception {
 		
-		BigDecimal valorAplicado = new BigDecimal(300).setScale(2);
-		LocalDate dataProximoMes = LocalDate.now().plusMonths(1);
+		BigDecimal valorAplicado = new BigDecimal(300).setScale(2, RoundingMode.HALF_EVEN);
+		LocalDate umMesAtras = LocalDate.now().minus(1, ChronoUnit.MONTHS);
 		
-		CDB cdb = new CDB(new BigDecimal(3 * 12));
+		BigDecimal rentabilidadeAnual = new BigDecimal(0.36).setScale(3, RoundingMode.HALF_EVEN);
+		CDB cdb = new CDB(rentabilidadeAnual);
 		
-		BigDecimal valorReajustado = cdb.calculaRendimento(valorAplicado, dataProximoMes);
+		BigDecimal rendimentoLiquido = cdb.calculaRendimento(valorAplicado, umMesAtras);
+		Assert.assertEquals(new BigDecimal(6.75).setScale(2, RoundingMode.HALF_EVEN), rendimentoLiquido);
 		
-		assertEquals(new BigDecimal(309).setScale(2), valorReajustado);
 	}
+	
+	@Test
+	public void deveCalcularRetornoDeAplicacaoEmUmSemestre() throws Exception {
+		
+		BigDecimal valorAplicado = new BigDecimal(300).setScale(2, RoundingMode.HALF_EVEN);
+		LocalDate umSemestreAtras = LocalDate.now().minus(6, ChronoUnit.MONTHS);
+		
+		BigDecimal rentabilidadeAnual = new BigDecimal(0.36).setScale(3, RoundingMode.HALF_EVEN);
+		CDB cdb = new CDB(rentabilidadeAnual);
+		
+		BigDecimal rendimentoLiquido = cdb.calculaRendimento(valorAplicado, umSemestreAtras);
+		Assert.assertEquals(new BigDecimal(43.66).setScale(2, RoundingMode.HALF_EVEN), rendimentoLiquido);
+		
+	}
+	
+	@Test
+	public void deveCalcularRetornoDeAplicacaoEmUmAno() throws Exception {
+		
+		BigDecimal valorAplicado = new BigDecimal(300).setScale(2, RoundingMode.HALF_EVEN);
+		LocalDate umAnoAtras = LocalDate.now().minus(12, ChronoUnit.MONTHS);
+		System.out.println(umAnoAtras);
+		
+		BigDecimal rentabilidadeAnual = new BigDecimal(0.36).setScale(3, RoundingMode.HALF_EVEN);
+		CDB cdb = new CDB(rentabilidadeAnual);
+		
+		BigDecimal rendimentoLiquido = cdb.calculaRendimento(valorAplicado, umAnoAtras);
+		Assert.assertEquals(new BigDecimal(102.18).setScale(2, RoundingMode.HALF_EVEN), rendimentoLiquido);
+		
+	}
+	
 }

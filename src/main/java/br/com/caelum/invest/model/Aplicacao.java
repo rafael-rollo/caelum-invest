@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import br.com.caelum.invest.exception.AplicacaoInvalidaException;
+
 @Entity
 public class Aplicacao {
 
@@ -46,7 +48,13 @@ public class Aplicacao {
 	}
 
 	public void processa() {
-		conta.desconta(valor);
+		try {
+			conta.desconta(valor);
+			
+		} catch(IllegalArgumentException e) {
+			throw new AplicacaoInvalidaException("Não é possível efetivar aplicação", e);
+		}
+		
 	}
 
 	public Investimento getInvestimento() {
@@ -78,9 +86,12 @@ public class Aplicacao {
 	}
 
 	public void resgata() {
+		
 		this.dataDeResgate = LocalDate.now();
 		
-		BigDecimal valorReajustado = this.investimento.calculaRendimento(this.valor, this.data);
+		BigDecimal rendimentoLiquido = this.investimento.calculaRendimento(this.valor, this.data);
+		BigDecimal valorReajustado = this.valor.add(rendimentoLiquido);
+		
 		conta.deposita(valorReajustado);
 	}
 
